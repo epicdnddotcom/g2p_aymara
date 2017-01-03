@@ -41,6 +41,10 @@ class VocabHandler(object):
     max_input_length = 0
     max_output_length = 0
 
+    valid_gr = []
+    valid_ph = []
+    test_gr = []
+    test_ph = []
     gr_vocab = {}
     ph_vocab = {}
     gr_size = 0
@@ -56,10 +60,21 @@ class VocabHandler(object):
         
     def decodePhoneme(self,phoneme_ids, one_hot=False):
         ph_list = []
+        if one_hot:
+            phoneme_ids = np.argmax(phoneme_ids, axis=1)    
         for id in phoneme_ids:
             if id > self.UNK_ID:
                 ph_list.append(self.ph_vocab.keys()[self.ph_vocab.values().index(id)])
         return " ".join(ph_list)
+    
+    def decodeWord(self,word_ids, one_hot=False):
+        gr_list = []
+        if one_hot:
+            word_ids = np.argmax(word_ids, axis=1)    
+        for id in word_ids:
+            if id > self.UNK_ID:
+                gr_list.append(self.gr_vocab.keys()[self.gr_vocab.values().index(id)])
+        return " ".join(gr_list)
 
     def onehot(self, X, max_len=0):
         X_oh = []
@@ -263,8 +278,8 @@ class VocabHandler(object):
         train_dic, valid_dic, test_dic = self.split_dictionary(self.train_path, valid_path, test_path)
         # Split dictionaries into two separate lists with graphemes and phonemes.
         train_gr, train_ph = self.split_to_grapheme_phoneme(train_dic)
-        valid_gr, valid_ph = self.split_to_grapheme_phoneme(valid_dic)
-        test_gr, test_ph = self.split_to_grapheme_phoneme(test_dic)
+        self.valid_gr, self.valid_ph = self.split_to_grapheme_phoneme(valid_dic)
+        self.test_gr, self.test_ph = self.split_to_grapheme_phoneme(test_dic)
         # Create vocabularies of the appropriate sizes.
         print("Creating vocabularies in %s" % model_dir)
         self.ph_vocab = self.create_vocabulary(train_ph)
@@ -277,10 +292,10 @@ class VocabHandler(object):
         # Create ids for the training data.
         self.train_ph_ids = [self.symbols_to_ids(line, self.ph_vocab) for line in train_ph]
         self.train_gr_ids = [self.symbols_to_ids(line, self.gr_vocab) for line in train_gr]
-        self.valid_ph_ids = [self.symbols_to_ids(line, self.ph_vocab) for line in valid_ph]
-        self.valid_gr_ids = [self.symbols_to_ids(line, self.gr_vocab) for line in valid_gr]
-        self.test_ph_ids = [self.symbols_to_ids(line, self.ph_vocab) for line in test_ph]
-        self.test_gr_ids = [self.symbols_to_ids(line, self.gr_vocab) for line in test_gr]
+        self.valid_ph_ids = [self.symbols_to_ids(line, self.ph_vocab) for line in self.valid_ph]
+        self.valid_gr_ids = [self.symbols_to_ids(line, self.gr_vocab) for line in self.valid_gr]
+        self.test_ph_ids = [self.symbols_to_ids(line, self.ph_vocab) for line in self.test_ph]
+        self.test_gr_ids = [self.symbols_to_ids(line, self.gr_vocab) for line in self.test_gr]
         
         self.train_gr_length = sorted(max(self.train_gr_ids, key=len), reverse=True)[0]
         self.valid_gr_length = sorted(max(self.valid_gr_ids, key=len), reverse=True)[0]
