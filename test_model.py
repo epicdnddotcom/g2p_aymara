@@ -16,8 +16,15 @@ y_test = test["y"]
 #model_dir = "model/model.json"
 #weights_dir = "model/model.h5"
 #weights_dir = "model/weights.h5"
-model_dir = "model/ohmodel5.json"
-weights_dir = "model/ohmodel5.h5"
+model_dir = "model/ohmodel7.json"
+
+choice = int(raw_input("modelo: "))
+if choice == 0:
+    print "modelo segun val_acc"
+    weights_dir = "model/weights_thrd.h5"
+elif choice == 1:
+    print "modelo segun matches"
+    weights_dir = "best_acc.h5"
 print "probando modelo: ",
 print model_dir
 # load json and create model
@@ -40,36 +47,14 @@ print "test"
 # errors
 good = 0
 for i in range(len(X_test)):
-    #ind = np.random.randint(0, len(X_test))
     rowX, rowy = X_test[np.array([i])], y_test[np.array([i])]
     preds = model.predict_classes(rowX, verbose=0)
-    # print preds
-    #oneh = handler.onehot(rowX[0], handler.gr_size)
     w = handler.decodeWord(np.argmax(rowX[0], axis=1))
     correct = handler.decodePhoneme(np.argmax(rowy[0], axis=1))
     guess = handler.decodePhoneme(preds[0])
-    #print('W', w[::-1] if INVERT else w)
-    #print('T', correct)
+    
     if correct == guess:
         good += 1
-    # print('ok' if correct == guess else 'fail', guess)
-    # print('---')
-
+    
 print "precision: " + str(good) + "/" + str(len(X_test)) + " = " + str(float(good) / len(X_test))
 
-run = True
-
-while run:
-    input = raw_input(">>")
-    print input
-    #sample = handler.encodeWord(input, padded=True, one_hot=True)
-    sample = handler.encodeWord(input, padded=True)
-    print sample.shape
-    sample = np.reshape(sample, (sample.shape[0], sample.shape[1], 1))
-    
-    #prediction = loaded_model.predict_classes(sample)
-    prediction = model.predict(sample)
-    
-    print prediction.shape
-    print prediction[0]
-    

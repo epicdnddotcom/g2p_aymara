@@ -1,25 +1,39 @@
-
+from keras.models import Sequential
+from keras.engine.training import slice_X
+from keras.layers import Activation, TimeDistributed, Dense, RepeatVector, recurrent
+from keras.callbacks import CSVLogger, Callback, ModelCheckpoint, ReduceLROnPlateau
+from keras.optimizers import RMSprop
 import numpy as np
-import seq2seq
+import csv
+from six.moves import range
+from VocabHandler import VocabHandler
+
 from seq2seq.models import SimpleSeq2Seq
 from VocabHandler import VocabHandler
 from recurrentshop import *
 from keras.models import model_from_json
 
+from utils import *
 
+model_dir = "model/ohmodel7.json"
+weights_dir = "model/weights_thrd.h5"
+
+## import dataset from dic
 handler = VocabHandler("dic_datasets/aymara.dic")
-#test = handler.getTest(padded=True, one_hot=True)
+
+train = handler.getTrain(padded=True, one_hot=True)
+X_train = train["X"]
+y_train = train["y"]
+
+valid = handler.getValid(padded=True, one_hot=True)
+X_valid = valid["X"]
+y_valid = valid["y"]
+
 test = handler.getTest(padded=True, one_hot=True)
 X_test = test["X"]
 y_test = test["y"]
 
-#model_dir = "model/model.json"
-#weights_dir = "model/model.h5"
-#weights_dir = "model/weights.h5"
-model_dir = "model/ohmodel5.json"
-weights_dir = "model/ohmodel5.h5"
-print "probando modelo: ",
-print model_dir
+##################################
 # load json and create model
 json_file = open(model_dir, 'r')
 loaded_model_json = json_file.read()
@@ -57,19 +71,27 @@ for i in range(len(X_test)):
 
 print "precision: " + str(good) + "/" + str(len(X_test)) + " = " + str(float(good) / len(X_test))
 
-run = True
+##################################
 
-while run:
-    input = raw_input(">>")
-    print input
-    #sample = handler.encodeWord(input, padded=True, one_hot=True)
-    sample = handler.encodeWord(input, padded=True)
-    print sample.shape
-    sample = np.reshape(sample, (sample.shape[0], sample.shape[1], 1))
-    
-    #prediction = loaded_model.predict_classes(sample)
-    prediction = model.predict(sample)
-    
-    print prediction.shape
-    print prediction[0]
-    
+#####################
+# retrain
+#####################
+print model.summary()
+
+ITER = 6
+BATCH_SIZE = 128
+
+checkpoint = ModelCheckpoint(filepath="model/weights_thrd1.h5", verbose=1, save_best_only=True, monitor='val_acc')
+csv_logger = CSVLogger('training_thrd.log') # logger
+history = LossHistory()
+guesses = CorrectGuess(valid, handler, model)
+reduce_lr = ReduceLROnPlateau(monitor='val_acc', factor=0.9, patience=40, min_lr=0.0001, verbose=1)
+#######################################################################
+model.fit(X_train, y_train, batch_size=BATCH_SIZE, nb_epoch=ITER,
+            validation_data=(X_valid, y_valid), callbacks=[csv_logger, history, checkpoint, guesses, reduce_lr])
+
+###
+# Select 10 samples from the validation set at random so we can visualize
+# errors
+
+print "modelo entrenado!"

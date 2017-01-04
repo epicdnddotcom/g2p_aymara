@@ -2,17 +2,16 @@ import os
 import codecs
 from tensorflow.python.platform import gfile
 from keras.preprocessing import sequence
-from sklearn.preprocessing import OneHotEncoder
 import numpy as np
 
 class VocabHandler(object):
-    """Handler for vocab file
-    Input data is assumed to contain one word per line.
+    """Herramienta para la manipulacion de diccionarios foneticos
+    Se asume que el diccionario contiene un par palabra-pronunciacion por linea
 
     Args:
     train_path: path for .dic file.
     """
-    # Special vocabulary symbols - we always put them at the start.
+    # simbolos especiales para el vocabulario (deben estar presentes siempre).
     _PAD = "_PAD"
     _GO = "_GO"
     _EOS = "_EOS"
@@ -23,7 +22,7 @@ class VocabHandler(object):
     GO_ID = 1
     EOS_ID = 2
     UNK_ID = 3
-
+    # listas para el entrenamiento, validacion y pruebas
     train_ph_ids = []
     train_gr_ids = []
     valid_ph_ids = []
@@ -40,7 +39,7 @@ class VocabHandler(object):
 
     max_input_length = 0
     max_output_length = 0
-
+    
     valid_gr = []
     valid_ph = []
     test_gr = []
@@ -49,6 +48,11 @@ class VocabHandler(object):
     ph_vocab = {}
     gr_size = 0
     ph_size = 0
+
+    #constructor
+    def __init__(self, train_path):
+        self.train_path = train_path
+        self.prepare_g2p_data()
     ## helpers for encode new words
     def encodeWord(self, word, padded=False, one_hot=False):
         w_ids = [self.symbols_to_ids(list(word.upper()), self.gr_vocab)]
@@ -320,9 +324,7 @@ class VocabHandler(object):
         params = (self.max_input_length, self.max_output_length, )
 
     
-    def __init__(self, train_path):
-        self.train_path = train_path
-        self.prepare_g2p_data()
+    
 
     def getTrain(self, padded=False, one_hot=False):
         ''' Return training set X and y
