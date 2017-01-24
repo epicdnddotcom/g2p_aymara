@@ -94,7 +94,7 @@ class Graph2PhonModel(object):
         print self.model.summary()
         self.loadedModel = self.model
     
-    def saveModel(self, model_dir=None):
+    def saveModel(self):
         print "Salvando modelo en: " + self.model_dir
         if not os.path.exists(self.model_dir):
             os.makedirs(self.model_dir)
