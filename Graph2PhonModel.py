@@ -1,19 +1,26 @@
 
-from keras.models import Sequential
+
+import numpy as np
+from keras.models import Sequential, model_from_json
 from keras.engine.training import slice_X
 from keras.layers import Activation, TimeDistributed, Dense, RepeatVector, recurrent
 from keras.callbacks import CSVLogger, Callback, ModelCheckpoint, ReduceLROnPlateau
 from keras.optimizers import RMSprop
-import numpy as np
+
+import seq2seq
+from seq2seq.models import SimpleSeq2Seq
+from recurrentshop import *
+
 import csv
 from six.moves import range
 from VocabHandler import VocabHandler
 
+import os
 ##
 from utils import *  ## helpers
 
 
-model_dir = "model/ohmodel7.json"
+#model_dir = "model/ohmodel7.json"
 weights_dir = "model/eng1.h5"
 
 
@@ -40,11 +47,14 @@ class Graph2PhonModel(object):
 
     best_weights = ""
     log_dir = "sample.log"
-    def __init__(self, dic_file, model_dir=None, weights_dir=None, train=True, name="sample"):
+    def __init__(self, dic_file, model_dir=None, train=True, name="sample"):
         self.handler = VocabHandler(dic_file)
         self.model_dir = model_dir
-        self.weights_dir = weights_dir
-        self.best_weights = weights_dir
+        self.model_json = name + ".json"
+        self.model_weights = name + ".h5"
+        #self.weights_dir = weights_dir
+        self.best_weights = self.model_weights
+        self.log_dir = name+".log"
         self.train = train
         self.name = name
         self.model = Sequential()
@@ -85,28 +95,32 @@ class Graph2PhonModel(object):
         self.model.add(Activation('softmax'))
         self.model.compile(loss='mse', optimizer='rmsprop', metrics=['accuracy'])
         print self.model.summary()
+        self.loadedModel = self.model
     
     def saveModel(self, model_dir=None):
-        print "Salvando modelo en: " + model_dir
+        print "Salvando modelo en: " + self.model_dir
+        if not os.path.exists(self.model_dir):
+            os.makedirs(self.model_dir)
+        # Save model's architecture
         model_json = self.model.to_json()
-        with open(model_dir, "w") as json_file:
+
+        with open(os.path.join(self.model_dir, self.model_json), "w") as json_file:
             json_file.write(model_json)
-        
         print "modelo salvado!"
     
 
     def trainModel(self, epoch=600):
         ## for training
         self.ITER = epoch
-        checkpoint = ModelCheckpoint(filepath=self.best_weights, verbose=1, save_best_only=True)
+        checkpoint = ModelCheckpoint(filepath=os.path.join(self.model_dir,self.best_weights), verbose=1, save_best_only=True)
         
-        csv_logger = CSVLogger(self.log_dir) # logger
+        csv_logger = CSVLogger(os.path.join(self.model_dir,self.log_dir)) # logger
         history = LossHistory()
-        guesses = CorrectGuess(self.valid, self.handler, self.model)
+        guesses = CorrectGuess(self.valid, self.handler, self.model, scores_file=os.path.join(self.model_dir, "scores.csv"))
         reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=160, min_lr=0.0001, verbose=1)
         #######################################################################
         if self.train == False:
-            aux_model = self.loadModel()
+            aux_model = self.loadedModel()
         else:
             aux_model = self.model
         
@@ -116,7 +130,7 @@ class Graph2PhonModel(object):
                         validation_data=(self.X_valid, self.y_valid), 
                         callbacks=[csv_logger, history, checkpoint, guesses, reduce_lr])
         
-        return self.model
+        return aux_model
         print "modelo entrenado!"
 
     def testModel(self, model):
@@ -141,29 +155,33 @@ class Graph2PhonModel(object):
         return float(good) / len(self.X_test)
 
     def loadModel(self):
-        json_file = open(self.model_dir, 'r')
+        json_file = open(os.path.join(self.model_dir, self.model_json), 'r')
         loaded_model_json = json_file.read()
         json_file.close()
-        self.loaded_model = model_from_json(loaded_model_json, 
+        self.loadedModel = model_from_json(loaded_model_json, 
                                         custom_objects={'SimpleSeq2Seq': SimpleSeq2Seq, 'RecurrentContainer': RecurrentContainer})
         
-        self.loaded_model.load_weights(self.weights_dir)
+        self.loadedModel.load_weights(os.path.join(self.model_dir, self.model_weights))
         # evaluate loaded model on test data
-        self.loaded_model.compile(loss='mse', optimizer='rmsprop', metrics=['accuracy'])
+        self.loadedModel.compile(loss='mse', optimizer='rmsprop', metrics=['accuracy'])
+        return self.loadedModel
         print ">modelo cargado exitosamente"
 
 
-    def runInteractive(self):
+    def predictPhoneme(self, word, model):
+        sample = self.handler.encodeWord(word, padded = True, one_hot=True)
+        prediction = model.predict_classes(sample)
+        phoneme = self.handler.decodePhoneme(prediction[0])
+        print word + " -> " + phoneme
+        return phoneme
+    def runInteractive(self, model):
+        print "entering interactive mode, type 'EXIT' if you want to leave the session"
         run = True
         while run:
-            input = raw_input(">>")
-            print input
-            sample = self.handler.encodeWord(input, padded=True, one_hot=True)
-            #sample = self.handler.encodeWord(input, padded=True)
-            print sample.shape
-            sample = np.reshape(sample, (sample.shape[0], sample.shape[1], 1))
-            #prediction = loaded_model.predict_classes(sample)
-            prediction = self.loaded_model.predict(sample)
-            print prediction.shape
-            print prediction[0]
-            
+            input_word = raw_input(">>")
+            if input_word == "EXIT":
+                run = False
+                return
+            print input_word
+
+            self.predictPhoneme(input_word, model)
