@@ -1,0 +1,169 @@
+
+from keras.models import Sequential
+from keras.engine.training import slice_X
+from keras.layers import Activation, TimeDistributed, Dense, RepeatVector, recurrent
+from keras.callbacks import CSVLogger, Callback, ModelCheckpoint, ReduceLROnPlateau
+from keras.optimizers import RMSprop
+import numpy as np
+import csv
+from six.moves import range
+from VocabHandler import VocabHandler
+
+##
+from utils import *  ## helpers
+
+
+model_dir = "model/ohmodel7.json"
+weights_dir = "model/eng1.h5"
+
+
+"""Graph2PhonModel
+    model for train and predict conversions between graphemes and phonemes
+"""
+
+class Graph2PhonModel(object):
+
+    # Try replacing GRU, or SimpleRNN
+    RNN = recurrent.LSTM   ## we are using LSTM cells
+    HIDDEN_SIZE = 128
+    BATCH_SIZE = 128
+    LAYERS = 1                  ## a tuple with(n_enc_layers, n_dec_layers)
+    MAXLEN = 0
+    opt = RMSprop(lr=0.01) #optimizer
+
+    X_train = []
+    y_train = []
+
+    valid = {}
+
+    ITER = 0
+
+    best_weights = ""
+    log_dir = "sample.log"
+    def __init__(self, dic_file, model_dir=None, weights_dir=None, train=True, name="sample"):
+        self.handler = VocabHandler(dic_file)
+        self.model_dir = model_dir
+        self.weights_dir = weights_dir
+        self.best_weights = weights_dir
+        self.train = train
+        self.name = name
+        self.model = Sequential()
+        self.loadedModel = Sequential()
+        self.MAXLEN = self.handler.max_input_length
+        #preparing dataset
+        self.prepareDatasets()
+
+    def prepareDatasets(self):
+        #training set
+        train = self.handler.getTrain(padded=True, one_hot=True)
+        self.X_train = train["X"]
+        self.y_train = train["y"]
+
+        self.valid = self.handler.getValid(padded=True, one_hot=True)
+        self.X_valid = self.valid["X"]
+        self.y_valid = self.valid["y"]
+
+        test = self.handler.getTest(padded=True, one_hot=True)
+        self.X_test = test["X"]
+        self.y_test = test["y"]
+    
+    def prepareModel(self):
+        # "Encode" the input sequence using an RNN, producing an output of HIDDEN_SIZE
+        # note: in a situation where your input sequences have a variable length,
+        # use input_shape=(None, nb_feature).
+        self.model.add(self.RNN(self.HIDDEN_SIZE, input_shape=(self.MAXLEN, self.handler.gr_size)))
+        #for _ in range(LAYERS[0]):
+            #model.add(RNN(HIDDEN_SIZE, return_sequences=True))
+        # For the decoder's input, we repeat the encoded input for each time step
+        self.model.add(RepeatVector(self.handler.max_output_length))
+        # The decoder RNN could be multiple layers stacked or a single layer
+        for _ in range(self.LAYERS):
+            self.model.add(self.RNN(self.HIDDEN_SIZE, return_sequences=True))
+        # For each of step of the output sequence, decide which character should
+        # be chosen
+        self.model.add(TimeDistributed(Dense(self.handler.ph_size)))
+        self.model.add(Activation('softmax'))
+        self.model.compile(loss='mse', optimizer='rmsprop', metrics=['accuracy'])
+        print self.model.summary()
+    
+    def saveModel(self, model_dir=None):
+        print "Salvando modelo en: " + model_dir
+        model_json = self.model.to_json()
+        with open(model_dir, "w") as json_file:
+            json_file.write(model_json)
+        
+        print "modelo salvado!"
+    
+
+    def trainModel(self, epoch=600):
+        ## for training
+        self.ITER = epoch
+        checkpoint = ModelCheckpoint(filepath=self.best_weights, verbose=1, save_best_only=True)
+        
+        csv_logger = CSVLogger(self.log_dir) # logger
+        history = LossHistory()
+        guesses = CorrectGuess(self.valid, self.handler, self.model)
+        reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=160, min_lr=0.0001, verbose=1)
+        #######################################################################
+        if self.train == False:
+            aux_model = self.loadModel()
+        else:
+            aux_model = self.model
+        
+        aux_model.fit(self.X_train, self.y_train, 
+                        batch_size=self.BATCH_SIZE, 
+                        nb_epoch=self.ITER,
+                        validation_data=(self.X_valid, self.y_valid), 
+                        callbacks=[csv_logger, history, checkpoint, guesses, reduce_lr])
+        
+        return self.model
+        print "modelo entrenado!"
+
+    def testModel(self, model):
+        good = 0
+        for i in range(len(self.X_test)):
+            #ind = np.random.randint(0, len(X_test))
+            rowX, rowy = self.X_test[np.array([i])], self.y_test[np.array([i])]
+            preds = model.predict_classes(rowX, verbose=0)
+            # print preds
+            #oneh = handler.onehot(rowX[0], handler.gr_size)
+            w = self.handler.decodeWord(np.argmax(rowX[0], axis=1))
+            correct = self.handler.decodePhoneme(np.argmax(rowy[0], axis=1))
+            guess = self.handler.decodePhoneme(preds[0])
+            #print('W', w[::-1] if INVERT else w)
+            #print('T', correct)
+            if correct == guess:
+                good += 1
+            # print('ok' if correct == guess else 'fail', guess)
+            # print('---')
+
+        print "precision: " + str(good) + "/" + str(len(self.X_test)) + " = " + str(float(good) / len(self.X_test))
+        return float(good) / len(self.X_test)
+
+    def loadModel(self):
+        json_file = open(self.model_dir, 'r')
+        loaded_model_json = json_file.read()
+        json_file.close()
+        self.loaded_model = model_from_json(loaded_model_json, 
+                                        custom_objects={'SimpleSeq2Seq': SimpleSeq2Seq, 'RecurrentContainer': RecurrentContainer})
+        
+        self.loaded_model.load_weights(self.weights_dir)
+        # evaluate loaded model on test data
+        self.loaded_model.compile(loss='mse', optimizer='rmsprop', metrics=['accuracy'])
+        print ">modelo cargado exitosamente"
+
+
+    def runInteractive(self):
+        run = True
+        while run:
+            input = raw_input(">>")
+            print input
+            sample = self.handler.encodeWord(input, padded=True, one_hot=True)
+            #sample = self.handler.encodeWord(input, padded=True)
+            print sample.shape
+            sample = np.reshape(sample, (sample.shape[0], sample.shape[1], 1))
+            #prediction = loaded_model.predict_classes(sample)
+            prediction = self.loaded_model.predict(sample)
+            print prediction.shape
+            print prediction[0]
+            

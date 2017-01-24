@@ -1,4 +1,3 @@
-
 import numpy as np
 import seq2seq
 from seq2seq.models import SimpleSeq2Seq
