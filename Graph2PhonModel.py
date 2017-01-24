@@ -1,5 +1,3 @@
-
-
 import numpy as np
 from keras.models import Sequential, model_from_json
 from keras.engine.training import slice_X
@@ -27,7 +25,6 @@ weights_dir = "model/eng1.h5"
 """Graph2PhonModel
     model for train and predict conversions between graphemes and phonemes
 """
-
 class Graph2PhonModel(object):
 
     # Try replacing GRU, or SimpleRNN
