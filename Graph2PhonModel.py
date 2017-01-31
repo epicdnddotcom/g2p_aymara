@@ -31,7 +31,7 @@ class Graph2PhonModel(object):
     RNN = recurrent.LSTM   ## we are using LSTM cells
     HIDDEN_SIZE = 128
     BATCH_SIZE = 128
-    LAYERS = 1                  ## a tuple with(n_enc_layers, n_dec_layers)
+    LAYERS = 2                  ## a tuple with(n_enc_layers, n_dec_layers)
     MAXLEN = 0
     opt = RMSprop(lr=0.01) #optimizer
 
@@ -74,10 +74,12 @@ class Graph2PhonModel(object):
         self.X_test = test["X"]
         self.y_test = test["y"]
     
-    def prepareModel(self):
+    def prepareModel(self, layers=1, cells=128):
         # "Encode" the input sequence using an RNN, producing an output of HIDDEN_SIZE
         # note: in a situation where your input sequences have a variable length,
         # use input_shape=(None, nb_feature).
+        self.LAYERS = layers
+        self.HIDDEN_SIZE = cells
         self.model.add(self.RNN(self.HIDDEN_SIZE, input_shape=(self.MAXLEN, self.handler.gr_size)))
         #for _ in range(LAYERS[0]):
             #model.add(RNN(HIDDEN_SIZE, return_sequences=True))
@@ -132,6 +134,8 @@ class Graph2PhonModel(object):
 
     def testModel(self, model):
         good = 0
+        output_file = os.path.join(self.model_dir, self.name + ".test")
+        test_results = []
         for i in range(len(self.X_test)):
             #ind = np.random.randint(0, len(X_test))
             rowX, rowy = self.X_test[np.array([i])], self.y_test[np.array([i])]
@@ -141,14 +145,23 @@ class Graph2PhonModel(object):
             w = self.handler.decodeWord(np.argmax(rowX[0], axis=1))
             correct = self.handler.decodePhoneme(np.argmax(rowy[0], axis=1))
             guess = self.handler.decodePhoneme(preds[0])
+            test_row = w + "\t -> " + guess
+            test_row += " \t\t.....ok" if correct == guess else "\t\t.....fail"
+            test_row += "\n"
             #print('W', w[::-1] if INVERT else w)
             #print('T', correct)
             if correct == guess:
                 good += 1
             # print('ok' if correct == guess else 'fail', guess)
             # print('---')
+            test_results.append(test_row)
 
         print "precision: " + str(good) + "/" + str(len(self.X_test)) + " = " + str(float(good) / len(self.X_test))
+
+        with open(output_file, 'w') as out:
+            for row in test_results:
+                out.write(row.encode('utf-8'))
+        
         return float(good) / len(self.X_test)
 
     def loadModel(self):

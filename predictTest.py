@@ -18,4 +18,4 @@ g2pModel.testModel(trained)
 # con el modelo entrenado podemos realizar predicciones de nuevas palabras
 g2pModel.predictPhoneme("janiwa", trained)
 # existe tambien un modo interactivo
-g2pModel.runInteractive(, trained)
+g2pModel.runInteractive(trained)
