@@ -188,10 +188,12 @@ class Graph2PhonModel(object):
         print "entering interactive mode, type 'EXIT' if you want to leave the session"
         run = True
         while run:
-            input_word = raw_input(">>")
+            input_word = raw_input(">>").decode('utf-8')
             if input_word == "EXIT":
                 run = False
                 return
             print input_word
-
-            self.predictPhoneme(input_word, model)
+            try:
+                self.predictPhoneme(input_word, model)
+            except:
+                print "invalid data"
