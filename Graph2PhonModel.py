@@ -1,4 +1,7 @@
+import os
+import codecs
 import numpy as np
+import pandas as pd
 from keras.models import Sequential, model_from_json
 from keras.engine.training import slice_X
 from keras.layers import Activation, TimeDistributed, Dense, RepeatVector, recurrent
@@ -30,7 +33,7 @@ class Graph2PhonModel(object):
     # Try replacing GRU, or SimpleRNN
     RNN = recurrent.LSTM   ## we are using LSTM cells
     HIDDEN_SIZE = 128
-    BATCH_SIZE = 128
+    BATCH_SIZE = 256
     LAYERS = 2                  ## a tuple with(n_enc_layers, n_dec_layers)
     MAXLEN = 0
     opt = RMSprop(lr=0.01) #optimizer
@@ -78,23 +81,26 @@ class Graph2PhonModel(object):
         # "Encode" the input sequence using an RNN, producing an output of HIDDEN_SIZE
         # note: in a situation where your input sequences have a variable length,
         # use input_shape=(None, nb_feature).
+        model = Sequential()
         self.LAYERS = layers
         self.HIDDEN_SIZE = cells
-        self.model.add(self.RNN(self.HIDDEN_SIZE, input_shape=(self.MAXLEN, self.handler.gr_size)))
+        model.add(self.RNN(self.HIDDEN_SIZE, input_shape=(self.MAXLEN, self.handler.gr_size)))
         #for _ in range(LAYERS[0]):
             #model.add(RNN(HIDDEN_SIZE, return_sequences=True))
         # For the decoder's input, we repeat the encoded input for each time step
-        self.model.add(RepeatVector(self.handler.max_output_length))
+        model.add(RepeatVector(self.handler.max_output_length))
         # The decoder RNN could be multiple layers stacked or a single layer
         for _ in range(self.LAYERS):
-            self.model.add(self.RNN(self.HIDDEN_SIZE, return_sequences=True))
+            model.add(self.RNN(self.HIDDEN_SIZE, return_sequences=True))
         # For each of step of the output sequence, decide which character should
         # be chosen
-        self.model.add(TimeDistributed(Dense(self.handler.ph_size)))
-        self.model.add(Activation('softmax'))
-        self.model.compile(loss='mse', optimizer='rmsprop', metrics=['accuracy'])
-        print self.model.summary()
+        model.add(TimeDistributed(Dense(self.handler.ph_size)))
+        model.add(Activation('softmax'))
+        model.compile(loss='mse', optimizer='rmsprop', metrics=['accuracy'])
+        print model.summary()
+        self.model = model
         self.loadedModel = self.model
+        return model
     
     def saveModel(self):
         print "Salvando modelo en: " + self.model_dir
@@ -108,7 +114,7 @@ class Graph2PhonModel(object):
         print "modelo salvado!"
     
 
-    def trainModel(self, epoch=600):
+    def trainModel(self,model, epoch=600):
         ## for training
         self.ITER = epoch
         checkpoint = ModelCheckpoint(filepath=os.path.join(self.model_dir,self.best_weights), verbose=1, save_best_only=True)
@@ -116,20 +122,16 @@ class Graph2PhonModel(object):
         csv_logger = CSVLogger(os.path.join(self.model_dir,self.log_dir)) # logger
         history = LossHistory()
         guesses = CorrectGuess(self.valid, self.handler, self.model, scores_file=os.path.join(self.model_dir, "scores.csv"))
-        reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=160, min_lr=0.0001, verbose=1)
+        reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.9, patience=100, min_lr=0.0001, verbose=1)
         #######################################################################
-        if self.train == False:
-            aux_model = self.loadedModel()
-        else:
-            aux_model = self.model
         
-        aux_model.fit(self.X_train, self.y_train, 
+        model.fit(self.X_train, self.y_train, 
                         batch_size=self.BATCH_SIZE, 
                         nb_epoch=self.ITER,
                         validation_data=(self.X_valid, self.y_valid), 
                         callbacks=[csv_logger, history, checkpoint, guesses, reduce_lr])
         
-        return aux_model
+        return model
         print "modelo entrenado!"
 
     def testModel(self, model):
@@ -180,9 +182,9 @@ class Graph2PhonModel(object):
 
     def predictPhoneme(self, word, model):
         sample = self.handler.encodeWord(word, padded = True, one_hot=True)
-        prediction = model.predict_classes(sample)
+        prediction = model.predict_classes(sample, verbose=0)
         phoneme = self.handler.decodePhoneme(prediction[0])
-        print word + " -> " + phoneme
+        #print word + " -> " + phoneme
         return phoneme
     def runInteractive(self, model):
         print "entering interactive mode, type 'EXIT' if you want to leave the session"
@@ -194,6 +196,24 @@ class Graph2PhonModel(object):
                 return
             print input_word
             try:
-                self.predictPhoneme(input_word, model)
+                print self.predictPhoneme(input_word, model)
             except:
                 print "invalid data"
+
+    def predictBatch(self, file, model, output_file=None, filetype="xlsx"):
+        """
+            Make predictions over a file with new words
+        """
+        if filetype == "xlsx":
+            test_df = pd.read_excel(file)
+            test_words = test_df["Pal-Aymara"]
+        
+        predictions = []
+        for word in test_words:
+            predictions.append(self.predictPhoneme(word, model))
+
+        if output_file == None:
+            output_file = os.path.join(self.model_dir, self.name + "_output.txt")
+            with open(output_file, 'w') as out:
+                for row in predictions:
+                    out.write((row+"\n").encode('utf-8'))

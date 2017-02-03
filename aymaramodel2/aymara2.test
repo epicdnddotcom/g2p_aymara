@@ -1,0 +1,282 @@
+N A Y A	 -> AA Y AA		.....fail
+N A Y A	 -> AA Y AA		.....fail
+A R S U W I R U S A	 -> AA R UW UW R R UW S AA		.....fail
+A R S U W I R U S A	 -> AA R UW UW R R UW S AA		.....fail
+Q A S A W I	 -> AA AA AA W W		.....fail
+Q A S A W I	 -> AA AA AA W W		.....fail
+U T J K T A	 -> UW UW HH K T AA		.....fail
+U T J A P K T A N T I	 -> UW T HH AA P K T AA NT T IY 		.....ok
+U R U S A	 -> UW R UW S AA 		.....ok
+U R U S A	 -> UW R UW S AA		.....fail
+J A K H U W I P A X A	 -> AA AA N IY IY K K XX XX		.....fail
+J A K H U W I P A X A	 -> AA AA N IY IY K K XX XX		.....fail
+U M A S K I W A	 -> M M M NG S K W AA		.....fail
+U M A S K I W A	 -> M M M NG S K W AA		.....fail
+S A R K T H T I	 -> S AA R K T IY 		.....ok
+T ’ A M A T A	 -> AA AA AA T AA		.....fail
+T ’ A M A T A	 -> AA AA AA T AA		.....fail
+A M P A R A	 -> M AA M AA AA		.....fail
+A M P A R A	 -> M AA M AA AA		.....fail
+J A Q I N A	 -> HH AA Q Q AA		.....fail
+J A Q I N A	 -> HH AA Q Q AA		.....fail
+W A L I K I S K T A T I	 -> AA AA S IY IY IY K T AA T IY		.....fail
+W A L I K I S K T A T I	 -> AA AA S IY IY IY K T AA T IY		.....fail
+K U P I	 -> UW UW UW IY		.....fail
+A R N A Q A Ñ A	 -> AA AA AA AA AA AA NN AA		.....fail
+A R N A Q A Ñ A	 -> AA AA AA AA AA AA NN AA		.....fail
+Q ’ I L L U M P I	 -> OH OH UW IY IY IY		.....fail
+Q ’ I L L U M P I	 -> OH OH UW IY IY IY		.....fail
+J I L A T A J A M P I W A	 -> HH IY IY AA AA AA AA AA AA P N W AA		.....fail
+J I L A T A J A M P I W A	 -> HH IY IY AA AA AA AA AA AA P N W AA		.....fail
+M U N A T A N I T H T I	 -> M N N T AA N N T T IY		.....fail
+K U N K A	 -> UW UW NG AA		.....fail
+K U N K A	 -> UW UW NG AA		.....fail
+J I K I S I Ñ K A M A	 -> IY IY IY IY IY IY AA AA AA AA		.....fail
+J I K I S I Ñ K A M A	 -> IY IY IY IY IY IY AA AA AA AA		.....fail
+S A T Ä K T H T I	 -> S AA T AA K T IY 		.....ok
+A P N A Q I R I W A	 -> AA AA AA AA AA IY IY W AA		.....fail
+A P N A Q I R I W A	 -> AA AA AA AA AA IY IY W AA		.....fail
+S A T Ä T A T I	 -> S AA T AA T AA T IY 		.....ok
+N U W A L A	 -> UW UW AA AA AA		.....fail
+N U W A L A	 -> UW UW AA AA AA		.....fail
+M U N A T A N I P X T A N T I	 -> M UW N AA T AA N IY P XX T AA NT T IY 		.....ok
+U S U C H A Ñ A	 -> UW UW UW AA AA AA		.....fail
+U S U C H A Ñ A	 -> UW UW UW AA AA AA		.....fail
+J A Y R A P X T A W A	 -> AA AA R AA AA P AA T W AA		.....fail
+J A Y R A P X T A W A	 -> AA AA R AA AA P AA T W AA		.....fail
+A N A T A P X T H W A	 -> AA N AA T AA P XX T W AA 		.....ok
+A K A N A K A	 -> AA N AA AA K K		.....fail
+A K A N A K A	 -> AA N AA AA K K		.....fail
+A M T A Ñ A	 -> AA AA T AA NN AA		.....fail
+A M T A Ñ A	 -> AA AA T AA NN AA		.....fail
+M I S T U N I W A	 -> IY ST T T UW UW W AA		.....fail
+M I S T U N I W A	 -> IY ST T T UW UW W AA		.....fail
+M A R K A T Ä K T H T I	 -> M AA R K AA T AA AA T T IY		.....fail
+K A R L A T I	 -> K AA R L AA T IY 		.....ok
+L A P ’ A	 -> P AA AA AA		.....fail
+L A P ’ A	 -> P AA AA AA		.....fail
+J I C H H Ü R U	 -> HH HH IY UW UW R		.....fail
+J I C H H Ü R U	 -> HH HH IY UW UW R		.....fail
+M A R K A N K I R Ï K T A N	 -> M AA R K AA NG K IY R IY K T AA N 		.....ok
+P A R L A S K A P X T A T I	 -> P AA R L AA S K AA P XX T AA T IY 		.....ok
+L U R A M T I	 -> UW R R M M IY		.....fail
+L U R A M T I	 -> UW R R M M IY		.....fail
+J I W A K I P X T A N T I	 -> HH AA AA T AA AA P XX T AA NT T IY		.....fail
+M U N A P X I W A	 -> M UW N AA P XX EH W AA 		.....ok
+M U N A P X I W A	 -> M UW N AA P XX EH W AA		.....fail
+L A R K I T I	 -> P AA R L IY IY T		.....fail
+Q ’ A Ñ U W A	 -> AA AA M W AA		.....fail
+Q ’ A Ñ U W A	 -> AA AA M W AA		.....fail
+C H A L A	 -> L AA AA		.....fail
+C H A L A	 -> L AA AA		.....fail
+S A T Ä P K T A N	 -> S AA T AA P K T AA N 		.....ok
+C H H I W C H H I	 -> IY HH CH IY		.....fail
+C H H I W C H H I	 -> IY HH CH IY		.....fail
+M A K H A T A S K I W A	 -> AA AA K AA AA AA IY IY W W		.....fail
+M A K H A T A S K I W A	 -> AA AA K AA AA AA IY IY W W		.....fail
+I S P I L L U N A K A M A X A	 -> IY IY IY IY AA AA AA K AA AA AA AA AA		.....fail
+I S P I L L U N A K A M A X A	 -> IY IY IY IY AA AA AA K AA AA AA AA AA		.....fail
+A X S A R I R I	 -> AA S AA R R R R		.....fail
+A X S A R I R I	 -> AA S AA R R R R		.....fail
+C O N S E R V A T O R I O R U	 -> IY OO N EE R R AA OO OO IY IY OO R UW AA		.....fail
+C O N S E R V A T O R I O R U	 -> IY OO N EE R R AA OO OO IY IY OO R UW AA		.....fail
+I N A	 -> IY N N		.....fail
+V I N O	 -> IY N N		.....fail
+L U R A P X T A	 -> L UW R R P P AA AA		.....fail
+Q ’ A L A	 -> AA AA AA		.....fail
+Q ’ A L A	 -> AA AA AA		.....fail
+T I X I	 -> EE XX IY		.....fail
+T I X I	 -> EE XX IY		.....fail
+M I S T Ü W A	 -> M IY ST T UW UW W		.....fail
+M I S T Ü W A	 -> M IY ST T UW UW W		.....fail
+J U T A M T I	 -> HH UW T AA M M T		.....fail
+J U T A M T I	 -> HH UW T AA M M T		.....fail
+A R K A Ñ A	 -> AA R K AA NN AA 		.....ok
+A R K A Ñ A	 -> AA R K AA NN AA		.....fail
+Y A T I C H A Ñ A	 -> AA T IY IY AA NN AA		.....fail
+Y A T I C H A Ñ A	 -> AA T IY IY AA NN AA		.....fail
+S U X A S K I W A	 -> HH NG AA S S K W AA		.....fail
+S U X A S K I W A	 -> HH NG AA S S K W AA		.....fail
+C H ’ A X W A K U	 -> HH HH AA AA AA AA K		.....fail
+C H ’ A X W A K U	 -> HH HH AA AA AA AA K		.....fail
+J U N T ’ U S K I T I	 -> UW UW UW UW UW K IY T IY		.....fail
+J U N T ’ U S K I T I	 -> UW UW UW UW UW K IY T IY		.....fail
+J U M A N A K A X A	 -> UW UW N N AA AA AA XX AA		.....fail
+J U M A N A K A X A	 -> UW UW N N AA AA AA XX AA		.....fail
+P A R L K T A N	 -> L AA R L K T AA N		.....fail
+Y A T K T H T I	 -> AA AA AA K T IY		.....fail
+Y A T I C H I R I W A	 -> EE AA AA IY IY IY IY W W		.....fail
+Y A T I C H I R I W A	 -> EE AA AA IY IY IY IY W W		.....fail
+J U P A	 -> UW UW AA		.....fail
+J U P A	 -> UW UW AA		.....fail
+J U N T ’ U W A	 -> HH UW UW UW UW UW AA		.....fail
+J U N T ’ U W A	 -> HH UW UW UW UW UW AA		.....fail
+C H ’ I K H I	 -> KH IY IY		.....fail
+C H ’ I K H I	 -> KH IY IY		.....fail
+M A N Q ’ A P X A M T I	 -> M AA AA T AA P XX AA M T IY		.....fail
+M A N Q ’ A P X A M T I	 -> M AA AA T AA P XX AA M T IY		.....fail
+U M A Ñ A T A K I	 -> UW UW N AA AA AA AA AA IY		.....fail
+U M A Ñ A T A K I	 -> UW UW N AA AA AA AA AA IY		.....fail
+L A Q ’ A	 -> AA QQ QQ		.....fail
+S A R A P X A Ñ A J A T I	 -> S AA R AA P XX AA AA AA AA AA T IY		.....fail
+S A R A P X A Ñ A S A T I	 -> S AA R AA P XX AA AA AA AA AA T IY		.....fail
+L A R U P K T H T I	 -> L AA R UW P K T IY 		.....ok
+J I W A K I P X T A N W A	 -> HH AA AA AA AA AA P XX T AA W W AA		.....fail
+I M A N T A Ñ A	 -> UW T T T AA NN AA		.....fail
+I M A N T A Ñ A	 -> UW T T T AA NN AA		.....fail
+M U N A P K T H T I	 -> M UW N AA P K T IY 		.....ok
+C H A K A	 -> AA K K		.....fail
+C H A K A	 -> AA K K		.....fail
+C A R L A K I T I	 -> K AA R L AA K IY T IY		.....fail
+Q H I P A N A	 -> EE N AA AA N		.....fail
+Q H I P A N A	 -> EE N AA AA N		.....fail
+J I K H A N I	 -> HH IY W AA AA N		.....fail
+J I K H A N I	 -> HH IY W AA AA N		.....fail
+M U S P A S K I W A	 -> M S AA AA S K IY IY AA		.....fail
+M U S P A S K I W A	 -> M S AA AA S K IY IY AA		.....fail
+T H I T H I	 -> T IY IY IY		.....fail
+T H I T H I	 -> T IY IY IY		.....fail
+A N A T A Ñ Ä N I	 -> AA AA AA AA AA NN AM N IY		.....fail
+A N A T A Ñ Ä N I	 -> AA AA AA AA AA NN AM N IY		.....fail
+Q H I P Ä X A	 -> IY P AA AA AA		.....fail
+A N A T A P X T A N T I	 -> AA N AA T AA P XX T AA NT T IY 		.....ok
+L U R I R I S A	 -> L UW R R IY IY IY AA		.....fail
+L U R I R I S A	 -> L UW R R IY IY IY AA		.....fail
+M A R K A N K I R Ï T H W A	 -> M AA R K AA NG K IY R IY T W AA 		.....ok
+Y A T I Q T H A	 -> AA T TT KK T AA		.....fail
+Y A T I Q T H A	 -> AA T TT KK T AA		.....fail
+L U R A P X A M	 -> UW UW R AA P XX AA M		.....fail
+S A T A K I	 -> S AA AA AA K IY		.....fail
+Y A N A P I R I	 -> AA AA AA AA IY R IY		.....fail
+Y A N A P I R I	 -> AA AA AA AA IY R IY		.....fail
+J U M A N K K I T I	 -> UW UW AA NG K IY IY T		.....fail
+J U M A N K K I T I	 -> UW UW AA NG K IY IY T		.....fail
+S T A T I O N	 -> AA T T T N N		.....fail
+A W Q A	 -> AA AA Q AA		.....fail
+P H A X S I	 -> AA AA S IY		.....fail
+P H A X S I	 -> AA AA S IY		.....fail
+T H A Y A	 -> AA Y AA		.....fail
+T H A Y A	 -> AA Y AA		.....fail
+Q ’ I L L U	 -> LL LL LL		.....fail
+Q ’ I L L U	 -> LL LL LL		.....fail
+M A R A N I P K T A T I	 -> M AA R AA N IY P K T AA T IY 		.....ok
+U R U	 -> UW R UW 		.....ok
+U R U	 -> UW R UW		.....fail
+A N A T K T A N T I	 -> AA N AA T K T AA NT T IY 		.....ok
+T H A Y A W A	 -> AA Y Y W W		.....fail
+T H A Y A W A	 -> AA Y Y W W		.....fail
+M A R K A T A P K I	 -> M AA R K AA T AA P K IY 		.....ok
+Q ’ A P H A	 -> AA AA AA		.....fail
+Q ’ A P H A	 -> AA AA AA		.....fail
+M U N A Ñ A	 -> UW UW AM AA NN AA		.....fail
+M U N A Ñ A	 -> UW UW AM AA NN AA		.....fail
+M A Y A N I	 -> AA AA AA AA IY		.....fail
+M A Y A N I	 -> AA AA AA AA IY		.....fail
+K A L L A C H I	 -> AA AA AA CH CH IY		.....fail
+K A L L A C H I	 -> AA AA AA CH CH IY		.....fail
+U S U N T A Ñ A	 -> UW UW UW T AA NN AA		.....fail
+U S U N T A Ñ A	 -> UW UW UW T AA NN AA		.....fail
+W I L L J T A	 -> IY L K T AA		.....fail
+W I L L J T A	 -> IY L K T AA		.....fail
+N Ä N A K A X A	 -> AA N N AA AA XX XX		.....fail
+N Ä N A K A X A	 -> AA N N AA AA XX XX		.....fail
+M A N Q ’ A S K T H W A	 -> M AM N AA AA S K T W AA		.....fail
+M A N Q ’ A S K T H W A	 -> M AM N AA AA S K T W AA		.....fail
+A W T J A Ñ A	 -> AA AA T T AA NN AA		.....fail
+A W T J A Ñ A	 -> AA AA T T AA NN AA		.....fail
+Ñ I K ’ U T A N I W A	 -> IY UW UW UW AA N IY W AA		.....fail
+C O T A	 -> K T AA AA		.....fail
+C O T A	 -> K T AA AA		.....fail
+A L T H A	 -> AA AA T T		.....fail
+S A T A P K I T I	 -> S AA T AA P K IY T IY 		.....ok
+J I W A S A N A K A X A	 -> IY IY AA AA AA AA AA AA AA AA AA		.....fail
+J I W A S A N A K A X A	 -> IY IY AA AA AA AA AA AA AA AA AA		.....fail
+Q U N T ’ A M	 -> Q AA NT TT AA M		.....fail
+J U N T ’ U	 -> HH UW UW UW UW		.....fail
+J U N T ’ U	 -> HH UW UW UW UW		.....fail
+J A Y R A S I Ñ A	 -> AA AA AA AA S IY NN AA		.....fail
+J A Y R A S I Ñ A	 -> AA AA AA AA S IY NN AA		.....fail
+L A R U P K T A	 -> L AA R UW P K T AA 		.....ok
+S A R A M	 -> S AA R AA M 		.....ok
+S A R A P K T A T I	 -> S AA R AA P K T AA T IY 		.....ok
+T A Y P I	 -> AA Y P IY		.....fail
+T A Y P I	 -> AA Y P IY		.....fail
+K A R L A K T H A	 -> K AA R L AA K T AA 		.....ok
+K A R L A P K T A	 -> K AA R L AA P K T AA 		.....ok
+A N A T A P K T H A	 -> AA N AA T AA P K T AA 		.....ok
+K A R E N	 -> S AA R R N		.....fail
+M U N T H W A	 -> M UW NT T W AA		.....fail
+J A N Q ’ U L L A	 -> AA LL LL P P AA		.....fail
+J A N Q ’ U L L A	 -> AA LL LL P P AA		.....fail
+R O D R I G U E Z	 -> L L L R R UW UW AA		.....fail
+L L U N K ’ U	 -> UW UW UW UW		.....fail
+L L U N K ’ U	 -> UW UW UW UW		.....fail
+T A Y K A R U S A	 -> AA AA AA K IY UW UW S		.....fail
+T A Y K A R U S A	 -> AA AA AA K IY UW UW S		.....fail
+W A X T ’ A M A	 -> AA AA TT AA AA M		.....fail
+W A X T ’ A M A	 -> AA AA TT AA AA M		.....fail
+M U N A T A N I P X T H T I	 -> M UW N AA T AA N IY P K T IY		.....fail
+S A R T A S I	 -> S AA R AA AA IY IY		.....fail
+S A R T A S I	 -> S AA R AA AA IY IY		.....fail
+Y A K A	 -> AA K AA		.....fail
+Y A K A	 -> AA K AA		.....fail
+Q ’ A W A C H I R A	 -> AA AA AA AA AA IY IY		.....fail
+Q ’ A W A C H I R A	 -> AA AA AA AA AA IY IY		.....fail
+S A R T A T I	 -> S AA R T AA T IY 		.....ok
+M U N I T I	 -> M UW UW IY T IY		.....fail
+A S P I A Z U N A	 -> AA AA IY K IY UW AA AA AA		.....fail
+U S T A M A	 -> UW UW AA M AA		.....fail
+U S T A M A	 -> UW UW AA M AA		.....fail
+I S T ’ A Ñ A	 -> IY IY TT AA NN AA		.....fail
+I S T ’ A Ñ A	 -> IY IY TT AA NN AA		.....fail
+S A R A P X T H A	 -> S AA R AA P XX T AA 		.....ok
+T ’ A X S U R I	 -> AA AA Y UW R IY		.....fail
+T ’ A X S U R I	 -> AA AA Y UW R IY		.....fail
+Q A L L T A N X A	 -> AA AA R AA AA AA AA		.....fail
+Q A L L T A N X A	 -> AA AA R AA AA AA AA		.....fail
+M A R A N I P X T A N W A	 -> M AA R AA N IY P XX T AA NT W AA		.....fail
+M A S I	 -> M AA AA IY		.....fail
+Q I L L Q A M	 -> Q EE L Q AA OH		.....fail
+Q I L L Q A M	 -> Q EE L Q AA OH		.....fail
+P A R L A P K T A N T I	 -> P AA R L AA P K T AA NT T IY 		.....ok
+A R X A T I R I W A	 -> AA AA R AA AA K IY IY IY W		.....fail
+A R X A T I R I W A	 -> AA AA R AA AA K IY IY IY W		.....fail
+S A R A P X T A N W A	 -> S AA R AA P XX T AA NT W AA		.....fail
+K I M S A Q A L L Q U N I	 -> IY IY Q AA AA AA Q Q OH R IY		.....fail
+K I M S A Q A L L Q U N I	 -> IY IY Q AA AA AA Q Q OH R IY		.....fail
+S A R A P X A M	 -> S AA R AA AA XX AA M		.....fail
+T H U T H A	 -> UW HH AA		.....fail
+T H U T H A	 -> UW HH AA		.....fail
+M U N A T A	 -> M AM AA T AA		.....fail
+M U N A T A	 -> M AM AA T AA		.....fail
+S A T A T I	 -> S AA AA AA T IY		.....fail
+A L A S I T A Y A	 -> AA AA K IY IY T AA AA		.....fail
+A L A S I T A Y A	 -> AA AA K IY IY T AA AA		.....fail
+W A L J A	 -> AA L L AA		.....fail
+W A L J A	 -> AA L L AA		.....fail
+L U R T H A	 -> UW UW R AA AA		.....fail
+L U R T H A	 -> UW UW R AA AA		.....fail
+U Ñ J A S A W A	 -> UW AA AA S AA AA AA		.....fail
+U Ñ J A S A W A	 -> UW AA AA S AA AA AA		.....fail
+N A Y R A M P I	 -> AA AA Y M M M IY		.....fail
+N A Y R A M P I	 -> AA AA Y M M M IY		.....fail
+U R U R I	 -> UW UW UW R IY		.....fail
+U R U R I	 -> UW UW UW R IY		.....fail
+M A R A N I T A S A	 -> M AA AA R AA IY IY AA AA AA		.....fail
+M A R A N I T A S A	 -> M AA AA R AA IY IY AA AA AA		.....fail
+C H A R A	 -> AA R R		.....fail
+C H A R A	 -> AA R R		.....fail
+Q A L A	 -> AA AA AA		.....fail
+Q A L A	 -> AA AA AA		.....fail
+M U N K T A N	 -> M UW UW NG T AA AA		.....fail
+C R U Z	 -> AA UW UW		.....fail
+S A R A P X T H A T I	 -> S AA R AA P XX T AA T IY 		.....ok
+M U N A T A N I P K T A N	 -> M UW N AA T AA N IY K K T AA N		.....fail
+S A R N A Q A Ñ A	 -> AA R R AA AA AA AA AA		.....fail
+S A R N A Q A Ñ A	 -> AA R R AA AA AA AA AA		.....fail
+M A M A	 -> M M M M		.....fail
+M A M A	 -> M M M M		.....fail
+K H I T I N K I S A	 -> IY IY T IY IY IY IY AA		.....fail
+K H I T I N K I S A	 -> IY IY T IY IY IY IY AA		.....fail
+K U L L A K A J A M P I	 -> UW UW HH AA AA AA AA AA N IY IY		.....fail
+K U L L A K A J A M P I	 -> UW UW HH AA AA AA AA AA N IY IY		.....fail

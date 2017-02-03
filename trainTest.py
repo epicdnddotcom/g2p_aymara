@@ -5,12 +5,12 @@
 from Graph2PhonModel import Graph2PhonModel
 # directorios necesarios para guardar y cargar el dataset y los modelos
 dic_dir = "dic_datasets/aymara2.dic"
-model_dir ="noeli/"
-model_name = "noeli"
+model_dir ="aymaramodel2/"
+model_name = "aymara2"
 # crea el modelo y carga los conjuntos de entrenamiento, validacion y testeo
 g2pModel = Graph2PhonModel(dic_dir, model_dir=model_dir, name=model_name)
 # crea la arquitectura del modelo de la red neuronal
-g2pModel.prepareModel()
+g2pModel.prepareModel(cells=150, layers=2)
 # almacena la arquitectura y los hiperparametros del modelo en un archivo .json
 g2pModel.saveModel()
 # entrena el modelo con las iteraciones definidas por el usuario
