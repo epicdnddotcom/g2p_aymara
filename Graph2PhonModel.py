@@ -200,16 +200,24 @@ class Graph2PhonModel(object):
         """
             Make predictions over a file with new words
         """
+        test_words = []
         if filetype == "xlsx":
             test_df = pd.read_excel(file)
             test_words = test_df["Pal-Aymara"]
-        
+        elif filetype == "txt":
+            f = codecs.open(file, encoding='utf-8')
+            for line in f:
+                test_words.append(line.strip())
+
         predictions = []
         for word in test_words:
             predictions.append(self.predictPhoneme(word, model))
 
         if output_file == None:
-            output_file = os.path.join(self.model_dir, self.name + "_output.txt")
+            output_file = os.path.join(self.model_dir, self.name + "_output.dic")
+        else:
+            output_file = os.path.join(self.model_dir, output_file)
             with open(output_file, 'w') as out:
-                for row in predictions:
-                    out.write((row+"\n").encode('utf-8'))
+                for i in range(len(predictions)):
+                    out.write((test_words[i].upper() + ' ' +predictions[i]+"\n").encode('utf-8'))
+        
