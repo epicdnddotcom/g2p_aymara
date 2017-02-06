@@ -8,10 +8,6 @@ from keras.layers import Activation, TimeDistributed, Dense, RepeatVector, recur
 from keras.callbacks import CSVLogger, Callback, ModelCheckpoint, ReduceLROnPlateau
 from keras.optimizers import RMSprop
 
-import seq2seq
-from seq2seq.models import SimpleSeq2Seq
-from recurrentshop import *
-
 import csv
 from six.moves import range
 from VocabHandler import VocabHandler
@@ -114,9 +110,10 @@ class Graph2PhonModel(object):
         print "modelo salvado!"
     
 
-    def trainModel(self,model, epoch=600):
+    def trainModel(self,model, epoch=600, batch_size=128):
         ## for training
         self.ITER = epoch
+        self.BATCH_SIZE = batch_size
         checkpoint = ModelCheckpoint(filepath=os.path.join(self.model_dir,self.best_weights), verbose=1, save_best_only=True)
         
         csv_logger = CSVLogger(os.path.join(self.model_dir,self.log_dir)) # logger
@@ -129,7 +126,7 @@ class Graph2PhonModel(object):
                         batch_size=self.BATCH_SIZE, 
                         nb_epoch=self.ITER,
                         validation_data=(self.X_valid, self.y_valid), 
-                        callbacks=[csv_logger, history, checkpoint, guesses, reduce_lr])
+                        callbacks=[csv_logger, history, checkpoint, guesses])
         
         return model
         print "modelo entrenado!"
@@ -170,8 +167,7 @@ class Graph2PhonModel(object):
         json_file = open(os.path.join(self.model_dir, self.model_json), 'r')
         loaded_model_json = json_file.read()
         json_file.close()
-        self.loadedModel = model_from_json(loaded_model_json, 
-                                        custom_objects={'SimpleSeq2Seq': SimpleSeq2Seq, 'RecurrentContainer': RecurrentContainer})
+        self.loadedModel = model_from_json(loaded_model_json)
         
         self.loadedModel.load_weights(os.path.join(self.model_dir, self.model_weights))
         # evaluate loaded model on test data
